@@ -1,9 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import './App.scss';
 import { useEffect, useState } from 'react';
 
 function App() {
-  const [array, setArray] = useState([]);
+  const [array, setArray] = useState([
+    {
+        Id: 0,
+        Name: "Monstera"
+    },
+    {
+        Id: 1,
+        Name: "Heartleaf"
+    },
+    {
+        Id: 2,
+        Name: "Philodendron"
+    },
+    {
+        Id: 3,
+        Name: "Cryptanthus"
+    }
+  ]);
 
     useEffect(() => {
         if (JSON.parse(localStorage.getItem("plants"))) {
@@ -14,7 +30,7 @@ function App() {
     const toRow = (a) => {
         let daysPassed = Math.floor((new Date().getTime() - new Date(a.Date).getTime()) / 86400000);
 
-        let daysPassedDisplay = daysPassed > 0 ? daysPassed === 1 ? <span>{daysPassed} day passed</span> : <span>{daysPassed} days passed</span> : <></>;
+        let daysPassedDisplay = daysPassed === 1 ? <span className='days'>{daysPassed} day passed</span> : daysPassed === 0 || daysPassed > 1 ? <span className='days'>{daysPassed} days passed</span> : <></>;
         let style = daysPassed >= 9 ? {backgroundColor: "#570000"} : daysPassed >= 7 ? {backgroundColor: "red"} : daysPassed >= 5 ? {backgroundColor: "orange"} : {};
 
         const newDate = (e) => {
@@ -26,7 +42,7 @@ function App() {
         }
 
         return (
-            <div key={a.Id} style={style}>
+            <div key={a.Id} style={style} className='row'>
                 <span>{a.Name}</span>
                 {daysPassedDisplay}
                 <button value={a.Id} onClick={newDate}>Watered</button>
@@ -52,9 +68,9 @@ function App() {
         <div className='App'>
             <div className="homepage content">
                 <h1>Plant tracker</h1>
-                <div>
+                {/* <div>
                     <button onClick={addPlant}>Add</button>
-                </div>
+                </div> */}
                 {arrayShow}
 
             </div>
