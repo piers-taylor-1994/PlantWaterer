@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/PlantWaterer/static/css/main.d689b8e4.css",
+    "main.js": "/PlantWaterer/static/js/main.06bd9414.js",
+    "static/js/787.a0c3cdc5.chunk.js": "/PlantWaterer/static/js/787.a0c3cdc5.chunk.js",
+    "static/media/logo.svg": "/PlantWaterer/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
+    "index.html": "/PlantWaterer/index.html",
+    "main.d689b8e4.css.map": "/PlantWaterer/static/css/main.d689b8e4.css.map",
+    "main.06bd9414.js.map": "/PlantWaterer/static/js/main.06bd9414.js.map",
+    "787.a0c3cdc5.chunk.js.map": "/PlantWaterer/static/js/787.a0c3cdc5.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.d689b8e4.css",
+    "static/js/main.06bd9414.js"
+  ]
+}
