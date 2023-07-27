@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/PlantWaterer/static/css/main.c3d3f420.css",
-    "main.js": "/PlantWaterer/static/js/main.c14cedda.js",
+    "main.js": "/PlantWaterer/static/js/main.6812de04.js",
     "static/js/787.a0c3cdc5.chunk.js": "/PlantWaterer/static/js/787.a0c3cdc5.chunk.js",
     "index.html": "/PlantWaterer/index.html",
     "main.c3d3f420.css.map": "/PlantWaterer/static/css/main.c3d3f420.css.map",
-    "main.c14cedda.js.map": "/PlantWaterer/static/js/main.c14cedda.js.map",
+    "main.6812de04.js.map": "/PlantWaterer/static/js/main.6812de04.js.map",
     "787.a0c3cdc5.chunk.js.map": "/PlantWaterer/static/js/787.a0c3cdc5.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.c3d3f420.css",
-    "static/js/main.c14cedda.js"
+    "static/js/main.6812de04.js"
   ]
 }
