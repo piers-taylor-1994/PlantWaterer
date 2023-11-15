@@ -6,6 +6,39 @@ body {
   margin: 0;
   padding: 0;
   text-shadow: 0.5px 0.5px black;
+
+  h1 {
+    font-size: 2.5em;
+    height: 1.5em;
+    margin: 0
+  }
+
+  h2 {
+    font-size: 2em;
+    margin-top: 0;
+    margin-bottom: 0.5em;
+  }
+
+  h3 {
+    margin: 0;
+    font-size: 1.5em;
+    text-shadow: 1px 1px black;
+  }
+
+  .inputs-container {
+    display: flex;
+    gap: 1em;
+    flex-direction: column;
+
+    .radio-container {
+      display: flex;
+      gap: 1em;
+
+      .radio-label {
+        display: flex;
+      }
+    }
+  }
 }
 
 .content {
@@ -19,13 +52,12 @@ button {
 
 .homepage {
   .array-container {
-    height: calc(100vh - 6.9em);
+    height: calc(100vh - 5em);
     overflow-y: scroll;
 
     .row {
       display: grid;
       grid-template-columns: 1fr 5em;
-      grid-template-rows: 1fr 1fr;
       margin-bottom: 1em;
       align-items: center;
       padding: 0.5em;
@@ -53,7 +85,7 @@ button {
 .header-container {
   display: flex;
   align-items: center;
-  gap: calc(100vw - 15.7em);
+  gap: calc(100vw - 21em);
 
   h1 {
     height: 1.5em;

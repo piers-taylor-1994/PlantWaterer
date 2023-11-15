@@ -1,6 +1,7 @@
 import './App.scss';
 import { useEffect, useState } from 'react';
 import { Add, Close } from './Icons';
+import { Format } from './dates';
 
 function App() {
     const [array, setArray] = useState([]);
@@ -13,11 +14,11 @@ function App() {
     }, [])
 
     const toRow = (a) => {
-        let daysPassed = Math.floor((new Date().getTime() - new Date(a.Date).getTime()) / 86400000);
+        let daysPassed = a.Date ? Math.floor((new Date().getTime() - new Date(a.Date).getTime()) / 86400000) : -1;
 
         let daysPassedDisplay = daysPassed === 1 ? <span className='days'>{daysPassed} day passed</span> : daysPassed === 0 || daysPassed > 1 ? <span className='days'>{daysPassed} days passed</span> : <></>;
-        let style = daysPassed >= 9 ? { backgroundColor: "#570000" } : daysPassed >= 7 ? { backgroundColor: "red" } : daysPassed >= 5 ? { backgroundColor: "orange" } : daysPassed >= 0 ? { backgroundColor: "green" } : {};
-        let nameStyle = !daysPassed && daysPassed !== 0 ? { gridRow: "1/3" } : {};
+        let style = daysPassed >= 9 ? { backgroundColor: "#570000" } : daysPassed >= 7 ? { backgroundColor: "red" } : daysPassed >= 5 ? { backgroundColor: "orange" } : daysPassed >= 0  ? { backgroundColor: "green" } : {};
+        let nameStyle = a.Date ? { marginBottom: "0.5em" } : {};
 
         const newDate = (e) => {
             array.find(a => a.Id === parseInt(e.target.value)).Date = new Date();
@@ -27,24 +28,35 @@ function App() {
             localStorage.setItem("plants", JSON.stringify(array));
         }
 
+        if (a.Type === "plant") return (
+            <div key={a.Id} style={style} className='row'>
+                <h3 style={nameStyle}>{a.Name}</h3>
+                <span>{daysPassedDisplay}</span>
+                <button value={a.Id} onClick={newDate}>Watered</button>
+            </div>
+        )
+
         return (
             <div key={a.Id} style={style} className='row'>
-                <span style={nameStyle}>{a.Name}</span>
-                {daysPassedDisplay}
-                <button value={a.Id} onClick={newDate}>Watered</button>
+                <h3 style={nameStyle}>{a.Name}</h3>
+                <span>{a.Date ? Format(a.Date).dateTime : ""}</span>
+                <button value={a.Id} onClick={newDate}>Update</button>
             </div>
         )
     }
 
-    const arrayShow = array.map(a => toRow(a));
+    const plantArrayShow = array.filter(a => a.Type === "plant").map(a => toRow(a));
+    const otherArrayShow = array.filter(a => a.Type === "other").map(a => toRow(a));
 
     function Modal() {
-        const [plantName, setPlantName] = useState("");
+        const [plantName, setTrackerName] = useState("");
+        const [trackerType, setTrackerType] = useState("plant");
 
-        const addPlant = () => {
+        const addTracker = () => {
             array.push({
                 Id: array.length,
-                Name: plantName
+                Name: plantName,
+                Type: trackerType
             })
             setArray(a => {
                 return [...a]
@@ -60,15 +72,28 @@ function App() {
                     <div className='button-container button-container-exit' onClick={() => setShowModal(false)}>
                         <Close />
                     </div>
-                    <h2>Add plant</h2>
+                    <h2>Add a tracker</h2>
+                    <div className='inputs-container'>
+                    <div className='radio-container' onChange={(e) => setTrackerType(e.target.value)}>
+                        <label className='radio-label'>
+                            Plant
+                            <input type="radio" value="plant" name='type' defaultChecked/>
+                        </label>
+                        <label className='radio-label'>
+                            Other
+                            <input type="radio" value="other" name='type'/>
+                        </label>
+                    </div>
                     <label>
                         Name:
                         <br />
-                        <input type='text' onChange={(e) => setPlantName(e.target.value)} />
+                        <input type='text' onChange={(e) => setTrackerName(e.target.value)} />
                     </label>
                     <div className='button-container'>
-                        <button onClick={addPlant}>Submit</button>
+                        <button onClick={addTracker}>Submit</button>
                     </div>
+                    </div>
+
                 </div>
             </div>
         )
@@ -80,14 +105,17 @@ function App() {
         <div className='App'>
             <div className="homepage content">
                 <div className='header-container'>
-                    <h1>Plant tracker</h1>
+                    <h1>Tracker</h1>
                     <div onClick={() => setShowModal(true)}>
                         <Add />
                     </div>
                 </div>
                 {modal}
                 <div className='array-container'>
-                    {arrayShow}
+                    {plantArrayShow.length > 0 ? <h2>Plants</h2> : <></>}
+                    {plantArrayShow}
+                    {otherArrayShow.length > 0 ? <h2>Other</h2> : <></>}
+                    {otherArrayShow}
                 </div>
             </div>
         </div>
