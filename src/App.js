@@ -13,40 +13,56 @@ function App() {
         }
     }, [])
 
-    const toRow = (a) => {
+    const newDate = (e) => {
+        array.find(a => a.Id === parseInt(e.target.value)).Date = new Date();
+        setArray(s => {
+            return [...s]
+        })
+        localStorage.setItem("plants", JSON.stringify(array));
+    }
+
+    const deleteRow = (id) => {
+        let trackingArray = array;
+        trackingArray = trackingArray.filter(a => a.Id !== id);
+        localStorage.setItem("plants", JSON.stringify(trackingArray));
+        setArray(trackingArray);
+    }
+
+    const toPlantRow = (a) => {
         let daysPassed = a.Date ? Math.floor((new Date().getTime() - new Date(a.Date).getTime()) / 86400000) : -1;
-
         let daysPassedDisplay = daysPassed === 1 ? <span className='days'>{daysPassed} day passed</span> : daysPassed === 0 || daysPassed > 1 ? <span className='days'>{daysPassed} days passed</span> : <></>;
-        let style = daysPassed >= 9 ? { backgroundColor: "#570000" } : daysPassed >= 7 ? { backgroundColor: "red" } : daysPassed >= 5 ? { backgroundColor: "orange" } : daysPassed >= 0  ? { backgroundColor: "green" } : {};
+        let style = daysPassed >= 9 ? { backgroundColor: "#570000" } : daysPassed >= 7 ? { backgroundColor: "red" } : daysPassed >= 5 ? { backgroundColor: "orange" } : daysPassed >= 0 ? { backgroundColor: "green" } : { "backgroundColor": "grey" };
         let nameStyle = a.Date ? { marginBottom: "0.5em" } : {};
-
-        const newDate = (e) => {
-            array.find(a => a.Id === parseInt(e.target.value)).Date = new Date();
-            setArray(s => {
-                return [...s]
-            })
-            localStorage.setItem("plants", JSON.stringify(array));
-        }
-
-        if (a.Type === "plant") return (
-            <div key={a.Id} style={style} className='row'>
-                <h3 style={nameStyle}>{a.Name}</h3>
-                <span>{daysPassedDisplay}</span>
-                <button value={a.Id} onClick={newDate}>Watered</button>
-            </div>
-        )
 
         return (
             <div key={a.Id} style={style} className='row'>
                 <h3 style={nameStyle}>{a.Name}</h3>
-                <span>{a.Date ? Format(a.Date).dateTime : ""}</span>
-                <button value={a.Id} onClick={newDate}>Update</button>
+                <span>{daysPassedDisplay}</span>
+                <div className='delete-submit-container'>
+                    <button value={a.Id} onClick={newDate}>Watered</button>
+                    <div className='delete-container' onClick={() => deleteRow(a.Id)}><Close /></div>
+                </div>
             </div>
         )
     }
 
-    const plantArrayShow = array.filter(a => a.Type === "plant").map(a => toRow(a));
-    const otherArrayShow = array.filter(a => a.Type === "other").map(a => toRow(a));
+    const toOtherRow = (a) => {
+        let nameStyle = a.Date ? { marginBottom: "0.5em" } : {};
+
+        return (
+            <div key={a.Id} style={{ "backgroundColor": "grey" }} className='row'>
+                <h3 style={nameStyle}>{a.Name}</h3>
+                <span>{a.Date ? Format(a.Date).dateTime : ""}</span>
+                <div className='delete-submit-container'>
+                    <button value={a.Id} onClick={newDate}>Update</button>
+                    <div className='delete-container' onClick={() => deleteRow(a.Id)}><Close /></div>
+                </div>
+            </div>
+        )
+    }
+
+    const plantArrayShow = array.filter(a => a.Type === "plant" || !a.Type).map(a => toPlantRow(a));
+    const otherArrayShow = array.filter(a => a.Type === "other").map(a => toOtherRow(a));
 
     function Modal() {
         const [plantName, setTrackerName] = useState("");
@@ -74,24 +90,24 @@ function App() {
                     </div>
                     <h2>Add a tracker</h2>
                     <div className='inputs-container'>
-                    <div className='radio-container' onChange={(e) => setTrackerType(e.target.value)}>
-                        <label className='radio-label'>
-                            Plant
-                            <input type="radio" value="plant" name='type' defaultChecked/>
+                        <div className='radio-container' onChange={(e) => setTrackerType(e.target.value)}>
+                            <label className='radio-label'>
+                                Plant
+                                <input type="radio" value="plant" name='type' defaultChecked />
+                            </label>
+                            <label className='radio-label'>
+                                Other
+                                <input type="radio" value="other" name='type' />
+                            </label>
+                        </div>
+                        <label>
+                            Name:
+                            <br />
+                            <input type='text' onChange={(e) => setTrackerName(e.target.value)} />
                         </label>
-                        <label className='radio-label'>
-                            Other
-                            <input type="radio" value="other" name='type'/>
-                        </label>
-                    </div>
-                    <label>
-                        Name:
-                        <br />
-                        <input type='text' onChange={(e) => setTrackerName(e.target.value)} />
-                    </label>
-                    <div className='button-container'>
-                        <button onClick={addTracker}>Submit</button>
-                    </div>
+                        <div className='button-container'>
+                            <button onClick={addTracker}>Submit</button>
+                        </div>
                     </div>
 
                 </div>
