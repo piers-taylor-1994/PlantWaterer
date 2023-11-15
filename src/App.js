@@ -32,31 +32,24 @@ function App() {
         let daysPassed = a.Date ? Math.floor((new Date().getTime() - new Date(a.Date).getTime()) / 86400000) : -1;
         let daysPassedDisplay = daysPassed === 1 ? <span className='days'>{daysPassed} day passed</span> : daysPassed === 0 || daysPassed > 1 ? <span className='days'>{daysPassed} days passed</span> : <></>;
         let style = daysPassed >= 9 ? { backgroundColor: "#570000" } : daysPassed >= 7 ? { backgroundColor: "red" } : daysPassed >= 5 ? { backgroundColor: "orange" } : daysPassed >= 0 ? { backgroundColor: "green" } : { "backgroundColor": "grey" };
-        let nameStyle = a.Date ? { marginBottom: "0.5em" } : {};
 
         return (
             <div key={a.Id} style={style} className='row'>
-                <h3 style={nameStyle}>{a.Name}</h3>
-                <span>{daysPassedDisplay}</span>
-                <div className='delete-submit-container'>
-                    <button value={a.Id} onClick={newDate}>Watered</button>
-                    <div className='delete-container' onClick={() => deleteRow(a.Id)}><Close /></div>
-                </div>
+                <h3>{a.Name}</h3>
+                <div className='submit-container'><button value={a.Id} onClick={newDate}>Watered</button></div>
+                <div className='delete-container' onClick={() => deleteRow(a.Id)}><Close /></div>
+                <div><span>{daysPassedDisplay}</span></div>
             </div>
         )
     }
 
     const toOtherRow = (a) => {
-        let nameStyle = a.Date ? { marginBottom: "0.5em" } : {};
-
         return (
             <div key={a.Id} style={{ "backgroundColor": "grey" }} className='row'>
-                <h3 style={nameStyle}>{a.Name}</h3>
-                <span>{a.Date ? Format(a.Date).dateTime : ""}</span>
-                <div className='delete-submit-container'>
-                    <button value={a.Id} onClick={newDate}>Update</button>
-                    <div className='delete-container' onClick={() => deleteRow(a.Id)}><Close /></div>
-                </div>
+                <h3>{a.Name}</h3>
+                <div className='submit-container'><button value={a.Id} onClick={newDate}>Update</button>                    </div>
+                <div className='delete-container' onClick={() => deleteRow(a.Id)}><Close /></div>
+                <div><span>{a.Date ? Format(a.Date).dateTime : ""}</span></div>
             </div>
         )
     }
