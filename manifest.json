@@ -1,6 +1,6 @@
 {
-  "short_name": "Plant tracker",
-  "name": "Plant tracking app",
+  "short_name": "Tracker",
+  "name": "Tracking app",
   "icons": [
     {
       "src": "favicon.ico",
