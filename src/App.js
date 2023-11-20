@@ -44,8 +44,10 @@ function App() {
     }
 
     const toOtherRow = (a) => {
+        let daysPassed = a.Date ? Math.floor((new Date().getTime() - new Date(a.Date).getTime()) / 86400000) : -1;
+        let style = daysPassed > 0 ? { backgroundColor: "red" } : daysPassed === 0 ? { backgroundColor: "green" } : { "backgroundColor": "grey" };
         return (
-            <div key={a.Id} style={{ "backgroundColor": "grey" }} className='row'>
+            <div key={a.Id} style={style} className='row'>
                 <h3>{a.Name}</h3>
                 <div className='submit-container'><button value={a.Id} onClick={newDate}>Update</button>                    </div>
                 <div className='delete-container' onClick={() => deleteRow(a.Id)}><Close /></div>
