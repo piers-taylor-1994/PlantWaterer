@@ -28,8 +28,12 @@ function App() {
         setArray(trackingArray);
     }
 
+    const calculateDaysPassed = (date) => {
+        return date ? Math.floor((new Date().setHours(0, 0, 0, 0) - new Date(date).setHours(0, 0, 0, 0)) / 86400000) : -1;
+    }
+
     const toPlantRow = (a) => {
-        let daysPassed = a.Date ? Math.floor((new Date().getTime() - new Date(a.Date).getTime()) / 86400000) : -1;
+        let daysPassed = calculateDaysPassed(a.Date);
         let daysPassedDisplay = daysPassed === 1 ? <span className='days'>{daysPassed} day passed</span> : daysPassed === 0 || daysPassed > 1 ? <span className='days'>{daysPassed} days passed</span> : <></>;
         let style = daysPassed >= 9 ? { backgroundColor: "#570000" } : daysPassed >= 7 ? { backgroundColor: "red" } : daysPassed >= 5 ? { backgroundColor: "orange" } : daysPassed >= 0 ? { backgroundColor: "green" } : { "backgroundColor": "grey" };
 
@@ -44,7 +48,7 @@ function App() {
     }
 
     const toOtherRow = (a) => {
-        let daysPassed = a.Date ? Math.floor((new Date().getTime() - new Date(a.Date).getTime()) / 86400000) : -1;
+        let daysPassed = calculateDaysPassed(a.Date);
         let style = daysPassed > 0 ? { backgroundColor: "red" } : daysPassed === 0 ? { backgroundColor: "green" } : { "backgroundColor": "grey" };
         return (
             <div key={a.Id} style={style} className='row'>
